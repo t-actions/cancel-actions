@@ -1,0 +1,26 @@
+name: Cancel Actions
+author: Tanyi Chen
+description: Cancel uncompleted actions, list from API https://docs.github.com/en/free-pro-team@latest/rest/reference/actions#list-workflow-runs-for-a-repository
+inputs:
+  token:
+    description: Github token
+    default: ${{ github.token }}
+  ref:
+    description: branch parameter of listing API 
+    default: ${{ github.ref }}
+  event_name:
+    description: event parameter of listing API 
+    default: ${{ github.event_name }}
+  ignore_error:
+    description: Ignore error when canceling actions
+runs:
+  using: composite
+  steps:
+    - name: Cancel Actions
+      run: ${GITHUB_ACTION_PATH}/cancel_actions.py
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        REF: ${{ inputs.ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        IGNORE_ERROR: ${{ inputs.ignore_error }}
